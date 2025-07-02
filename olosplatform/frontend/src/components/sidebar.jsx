@@ -9,31 +9,82 @@ const SideBar = () => {
     const pathname = usePathname();   
     const router = useRouter();
 
-   const menuItems = [
+   const menuItems = [ //dashboard
         { label: "Configuração", route: "/sysconfiguration" },
-        { label: "Gravações", route: "testeee" },
-        { label: "Relatórios", route: "#" },
-        { label: "Monitoramento", route: "#" },
-        { label: "Mailing & Estratégia", route: "#" },
-        { label: "Bilhetagem", route: "#" },
-        { label: "Alarme", route: "#" },
-        { label: "Sessões", route: "#" },
-        { label: "Email", route: "#" }
+        { label: "Gravações", route: "/recordings" },
+        { label: "Relatórios", route: "/reports" },
+        { label: "Monitoramento", route: "/monitor" },
+        { label: "Mailing & Estratégia", route: "/mailing" },
+        { label: "Bilhetagem", route: "/ticketing" },
+        { label: "Alarme", route: "/alarm" },
+        { label: "Sessões", route: "/session" },
+        { label: "Email", route: "/email" }
     ];
 
-    const menuItems2 = [
-        "Página Inicial",
-        "Configurações Gerais",
-        "Organizações",
-        "Usuários",
-        "Tabulações",
-        "Pausas",
-        "Campanhas",
-        "Backup",
-        "Infraestrutura",
-        "Alarmes",
+    const menuItems2 = [ //sysconfiguration
+        { label: "Página Inicial", route: "/dashboard" },
+        { label: "Configurações Gerais", route: "/generalConfig" },
+        { label: "Organizações", route: "/organization" },
+        { label: "Usuários", route: "/users" },
+        { label: "Tabulações", route: "/tabulations" },
+        { label: "Pausas", route: "/pauses" },
+        { label: "Campanhas", route: "/campaigns" },
+        { label: "Backup", route: "/backup" },
+        { label: "Infraestrutura", route: "/infrastructure" },
+        { label: "Alarmes", route: "/alarms" },
     ];
-    const activeMenu = pathname === "/sysconfiguration" ? menuItems2 : menuItems;
+
+    const menuItems3 = [ //gravacoes
+        { label: "Pagina Inicial", route: "/dashboard" },
+    ]
+
+    const menuItems4 = [ //relatorios 
+        { label: "Página Inicial", route: "/dashboard" },
+        { label: "Relatórios", route: "/reports" },
+        { label: "Templates", route: "/templates" },
+        { label: "Relatórios Customizados", route: "/customReports" },
+    ]
+
+    const menuItems5 = [ //mailing & estrategia
+        { label: "Página Inicial", route: "/dashboard" },
+        { label: "Layout", route: "/layout" },
+        { label: "Importação", route: "/import" },
+        { label: "Estratégia", route: "/strategy" },
+        { label: "Mailing", route: "/mailing" },
+        { label: "Agendamento", route: "/scheduling" },
+        { label: "Integração", route: "/integration" },
+    ]
+
+    const menuItems6 = [ //bilhetagem
+        { label: "Página Inicial", route: "/dashboard" },
+        { label: "Planos de Tarifacão", route: "/tariffPlans" },
+        { label: "Planos de Monitoração", route: "/monitoringPlans" },
+        { label: "Monitoração", route: "/monitoring" },
+        { label: "Relatórios", route: "/billingReports" },
+        { label: "Configurações", route: "/billingConfig" },
+    ]
+
+    //monitoramento(redireciona para uma pagina externa)
+    //alarme(redireciona para uma pagina externa)
+    //email(redireciona para uma pagina externa)
+
+    const menuItems7 = [ //sessao
+        { label: "Página Inicial", route: "/dashboard" },
+        { label: "Sessões Ativas", route: "/sessions" },
+        { label: "Histórico de Sessões", route: "/sessionHistory" },
+    ]
+
+    const getActiveMenu = () => {
+        if(pathname.startsWith("/sysconfiguration")) return menuItems2;
+        if(pathname.startsWith("/recordings")) return menuItems3;
+        if(pathname.startsWith("/reports")) return menuItems4;
+        if(pathname.startsWith("/mailing")) return menuItems5;
+        if(pathname.startsWith("/ticketing")) return menuItems6;
+        if(pathname.startsWith("/session")) return menuItems7;
+        return menuItems; // Default to the main menu if no specific path matches   
+    }
+    
+    const activeMenu = getActiveMenu();
 
 
     return(
@@ -50,16 +101,28 @@ const SideBar = () => {
                     <ul className="flex flex-col gap-4">
                     {pathname === "/sysconfiguration"
                         ? activeMenu.map((item, idx) => (
-                            <li key={item} className="transition-transform duration-300 ease-in-out hover:scale-105 hover:text-[#EC7D22]">
+                            <li 
+                            key={item.label} 
+                            className="transition-transform duration-300 ease-in-out hover:scale-105 hover:text-[#EC7D22]"
+                            onClick={() => router.push(item.route)}
+                            >
                                 <span
                                     className="text-white font-bold hover:underline hover:decoration-[#EC7D22] cursor-pointer"
                                 >
-                                    {item}
+                                    {item.label}
                                 </span>
                             </li>
                         ))
                         : activeMenu.map((item, idx) => (
-                            <li key={item.label} className="transition-transform duration-300 ease-in-out hover:scale-105 hover:text-[#EC7D22]">
+                            <li 
+                            key={item.label} 
+                            className="transition-transform duration-300 ease-in-out hover:scale-105 hover:text-[#EC7D22]"
+                            onClick={() => {
+                                if (item.route && item.route !== "#") {
+                                    router.push(item.route);
+                                }
+                            }}
+                            >
                                 <span
                                     onClick={() => {
                                         if (item.route && item.route !== "#") {
