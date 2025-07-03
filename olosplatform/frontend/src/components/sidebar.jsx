@@ -23,7 +23,7 @@ const SideBar = () => {
 
     const menuItems2 = [ //sysconfiguration
         { label: "Página Inicial", route: "/dashboard" },
-        { label: "Configurações Gerais", route: "/generalConfig" },
+        { label: "Configurações Gerais", route: "/sysconfiguration/generalConfig" },
         { label: "Organizações", route: "/organization" },
         { label: "Usuários", route: "/users" },
         { label: "Tabulações", route: "/tabulations" },
