@@ -6,6 +6,9 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import Input from "@mui/material/Input";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const ariaLabel = { "aria-label": "description" };
 
@@ -88,7 +91,6 @@ const GeneralConfig = () => {
                 Configurações Gerais
               </h2>
               <p>Aqui você pode configurar as opções gerais do sistema.</p>
-
               {/* Abas */}
               <div className="flex gap-4 mt-6">
                 <Button
@@ -129,9 +131,9 @@ const GeneralConfig = () => {
                 </Button>
               </div>
 
-              {/* Conteúdo da aba ativa */}
+              {/* Conteúdo da aba ativa Dados */}
               {isTabActive === "dados" && (
-                <div className="mt-6 bg-gray-50 p-4 border rounded-lg">
+                <div className="mt-6 bg-gray-50 p-4 border rounded-lg flex flex-col justify-center items-between">
                   <form action="" className="space-y-4" onSubmit={handleSubmit}>
                     {/* Container da linha com flex */}
                     <div className="flex items-center justify-evenly gap-4">
@@ -153,52 +155,47 @@ const GeneralConfig = () => {
                       </span>
                     </div>
 
-                    {/* Container Pais */}
-                    <div className="flex items-start justify-evenly gap-4">
-                      <label className="text-left font-medium pt-2">
-                        País:
-                      </label>
-                      <FormControl sx={{ flex: 1 }}>
-                        <Select
-                          id="pais-select"
-                          displayEmpty
-                          defaultValue=""
-                          className="w-full"
-                        >
-                          <MenuItem value="" disabled>
-                            Selecione um país
-                          </MenuItem>
-                          {paises.map((pais, index) => (
-                            <MenuItem key={index} value={pais}>
-                              {pais}
+                    {/* Container País e Fuso horário lado a lado */}
+                    <div className="flex items-center justify-center gap-4">
+                      {/* País */}
+                      <div className="flex items-center justify-evenly gap-4 w-1/2">
+                        <FormControl sx={{ width: "100%" }}>
+                          <Select id="pais-select" displayEmpty defaultValue="">
+                            <MenuItem value="" disabled>
+                              Selecione um país
                             </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
+                            {paises.map((pais, index) => (
+                              <MenuItem key={index} value={pais}>
+                                {pais}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </div>
 
-                    {/* Container Fuso horario */}
-                    <div className="flex items-start justify-evenly gap-4">
-                      <label className="w-1/3 text-left font-medium pt-2">
-                        Fuso Horário:
-                      </label>
-                      <FormControl sx={{ flex: 1 }}>
-                        <Select
-                          id="pais-select"
-                          displayEmpty
-                          defaultValue=""
-                          autoWidth
-                        >
-                          <MenuItem value="" disabled>
-                            Selecione um Fuso horário
-                          </MenuItem>
-                          {/* {paises.map((pais, index) => (
-                                    <MenuItem key={index} value={pais}>
-                                        {pais}
-                                    </MenuItem>
-                                ))} */}
-                        </Select>
-                      </FormControl>
+                      {/* Fuso horário */}
+                      <div className="flex items-center justify-evenly gap-4 w-1/2">
+                        <FormControl sx={{ width: "100%" }}>
+                          <Select
+                            id="fuso-horario-select"
+                            displayEmpty
+                            defaultValue=""
+                          >
+                            <MenuItem value="" disabled>
+                              Selecione um fuso horário
+                            </MenuItem>
+                            <MenuItem value="UTC-3">UTC-3</MenuItem>
+                            <MenuItem value="UTC-4">UTC-4</MenuItem>
+                            <MenuItem value="UTC+0">UTC+0</MenuItem>
+                            {/* Adicione mais fusos horários conforme necessário */}
+                          </Select>
+                        </FormControl>
+
+                        {/* Asterisco obrigatório */}
+                        <span className="w-1/12 text-red-500 text-right text-xl pt-2">
+                          *
+                        </span>
+                      </div>
                     </div>
 
                     {/* Container Chave de liçenca */}
@@ -240,10 +237,72 @@ const GeneralConfig = () => {
                         *
                       </span>
                     </div>
+
+                    {/* Container Organização */}
+                    <div className="flex items-center justify-evenly gap-4">
+                      <label className="w-1/3 text-left font-medium">
+                        Organização:
+                      </label>
+                      <FormControl fullWidth>
+                        <Select
+                          id="fuso-horario-select"
+                          displayEmpty
+                          defaultValue=""
+                        >
+                          <MenuItem value="" disabled>
+                            Selecione uma Organização...
+                          </MenuItem>
+                          <MenuItem value="Santander">Santander</MenuItem>
+                          <MenuItem value="Foundever">Foundever</MenuItem>
+                          <MenuItem value="Thato">Thato</MenuItem>
+                          {/* Adicione mais organizacoes conforme necessário */}
+                        </Select>
+                      </FormControl>
+                      <span className="w-1/12 text-red-500 text-right text-xl pt-2" />
+                    </div>
+
+                    {/* Container Checkbox */}
+                    <div className="flex items-center justify-start gap-4">
+                      <label className="w-1/3 text-left font-medium">
+                        Destino de gravações por campanha :
+                      </label>
+                      <Checkbox {...label} className="text-left" />
+                      <span className="w-1/12 text-red-500 text-right text-xl pt-2" />
+                    </div>
+
+                    {/* Container Max Hangup */}
+                    <div className="flex items-center justify-evenly gap-4">
+                      <label className="w-1/3 text-left font-medium">
+                        Max Hangup:
+                      </label>
+                      <Input
+                        placeholder="Max Hangup..."
+                        fullWidth
+                        inputProps={ariaLabel}
+                      />
+                      <span className="w-1/12 text-red-500 text-right text-xl pt-2">
+                        *
+                      </span>
+                    </div>
+
+                    {/* URL de informações do analytics */}
+                    <div className="flex items-center justify-evenly gap-4">
+                      <label className="w-1/3 text-left font-medium">
+                        URL de informações do analytics:
+                      </label>
+                      <Input
+                        placeholder="https://example.com/analytics"
+                        fullWidth
+                        inputProps={ariaLabel}
+                      />
+                      <span className="w-1/12 text-red-500 text-right text-xl pt-2" />
+                    </div>
                   </form>
                 </div>
               )}
 
+              {/* Conteúdo da aba WhatsApp */}
+              {/* Aqui no front antigo era uma tabela */}
               {isTabActive === "whatsapp" && (
                 <div className="mt-6 bg-gray-50 p-4 border rounded-lg">
                   <label className="block mb-4">
@@ -270,7 +329,7 @@ const GeneralConfig = () => {
             {isTabActive && (
               <button
                 type="submit"
-                className="mt-6 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                className="mt-6 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 cursor-pointer"
               >
                 Salvar
               </button>
